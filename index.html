@@ -1,0 +1,699 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10101c">
+  <meta name="description" content="V-Converter is a cross-platform tool for converting and creating Friday Night Funkin' mods.">
+  <title>V-Converter | Official Website</title>
+
+  <style>
+    :root {
+      --bg: #10101c;
+      --surface: #1b1b2e;
+      --surface-light: #24243b;
+      --primary: #8367ff;
+      --secondary: #50c7ff;
+      --text: #f5f5ff;
+      --muted: #a5a5bd;
+      --border: #35354b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .container {
+      width: min(1150px, 92%);
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(16, 16, 28, .95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+    }
+
+    .navbar {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .logo-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: white;
+      font-size: 26px;
+    }
+
+    .logo span {
+      color: var(--secondary);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      transition: color .2s;
+    }
+
+    nav a:hover {
+      color: var(--secondary);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: 0;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 23px;
+      border-radius: 11px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform .2s, background .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0 110px;
+      text-align: center;
+      background:
+        radial-gradient(
+          ellipse at 50% 0%,
+          rgba(131, 103, 255, .24),
+          transparent 65%
+        );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      padding: 7px 17px;
+      border-radius: 30px;
+      background: rgba(131, 103, 255, .12);
+      border: 1px solid rgba(131, 103, 255, .4);
+      color: #b9aaff;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 26px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: 1.1;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--secondary)
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 35px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    section {
+      padding: 90px 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(29px, 4vw, 42px);
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      max-width: 620px;
+      margin: auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .feature-card {
+      padding: 30px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 18px;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      background: rgba(131, 103, 255, .15);
+      border-radius: 14px;
+      font-size: 25px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .engines {
+      background: #151523;
+    }
+
+    .engine-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .engine {
+      padding: 15px 22px;
+      background: var(--surface-light);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .platforms {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .platform {
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 27px 15px;
+    }
+
+    .platform .emoji {
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
+
+    .platform h3 {
+      font-size: 17px;
+    }
+
+    .download-section {
+      background: #151523;
+    }
+
+    .download-panel {
+      text-align: center;
+      padding: 65px 25px;
+      border: 1px solid rgba(131, 103, 255, .4);
+      border-radius: 24px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(131, 103, 255, .18),
+          rgba(80, 199, 255, .07)
+        );
+    }
+
+    .download-panel h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      margin-bottom: 15px;
+    }
+
+    .download-panel p {
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 35px 0;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      color: var(--secondary);
+    }
+
+    @media (max-width: 800px) {
+      .features-grid,
+      .platforms {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      nav {
+        display: none;
+        position: absolute;
+        top: 76px;
+        left: 0;
+        right: 0;
+        padding: 24px;
+        flex-direction: column;
+        align-items: stretch;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+      }
+
+      nav.open {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .features-grid,
+      .platforms {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 90px 0;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container navbar">
+      <a class="logo" href="#home">
+        <div class="logo-mark">V</div>
+        <div>V-<span>Converter</span></div>
+      </a>
+
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        aria-controls="navigation"
+      >☰</button>
+
+      <nav id="navigation">
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#engines">Engines</a>
+        <a href="#platforms">Platforms</a>
+        <a href="#download">Download</a>
+        <a
+          href="https://github.com/VConverterCrew/V-Converter"
+          target="_blank"
+          rel="noopener noreferrer"
+        >GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-content">
+        <div class="hero-tag">
+          OPEN SOURCE • CROSS-PLATFORM
+        </div>
+
+        <h1>
+          Meet <span class="gradient-text">V-Converter</span>
+        </h1>
+
+        <p>
+          Convert, create and edit Friday Night Funkin'
+          mods with a powerful cross-platform application.
+          Bring your content to different engines with ease.
+        </p>
+
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="#download">
+            Get V-Converter
+          </a>
+
+          <a
+            class="btn btn-secondary"
+            href="https://github.com/VConverterCrew/V-Converter"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View Source Code
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Powerful Features</h2>
+          <p>
+            Everything you need to work with
+            Friday Night Funkin' mod content.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3>Mod Conversion</h3>
+            <p>
+              Convert mods, charts, characters,
+              stages and scripts between supported engines.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🛠️</div>
+            <h3>Content Generator</h3>
+            <p>
+              Generate new mod content, including
+              characters, charts, stages and scripts.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🎵</div>
+            <h3>Chart Editor</h3>
+            <p>
+              Create and modify song charts with
+              note editing, timing controls and audio.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3>Character Editor</h3>
+            <p>
+              Preview animations, adjust offsets
+              and edit character configurations.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <h3>Cross-Platform</h3>
+            <p>
+              Work with V-Converter across desktop,
+              mobile and supported web browsers.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">💻</div>
+            <h3>Open Source</h3>
+            <p>
+              Explore the source code, report issues
+              and contribute to the project on GitHub.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="engines" id="engines">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Supported Engines</h2>
+          <p>
+            Work with content from multiple
+            Friday Night Funkin' engines.
+          </p>
+        </div>
+
+        <div class="engine-list">
+          <div class="engine">Psych Engine</div>
+          <div class="engine">V-Slice</div>
+          <div class="engine">Codename Engine</div>
+          <div class="engine">NightmareVision</div>
+          <div class="engine">FPS Plus</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="platforms">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Available Platforms</h2>
+          <p>
+            V-Converter is built with
+            Kotlin Multiplatform.
+          </p>
+        </div>
+
+        <div class="platforms">
+          <div class="platform">
+            <div class="emoji">📱</div>
+            <h3>Android</h3>
+          </div>
+
+          <div class="platform">
+            <div class="emoji">🪟</div>
+            <h3>Windows</h3>
+          </div>
+
+          <div class="platform">
+            <div class="emoji">🐧</div>
+            <h3>Linux</h3>
+          </div>
+
+          <div class="platform">
+            <div class="emoji">🍎</div>
+            <h3>macOS</h3>
+          </div>
+
+          <div class="platform">
+            <div class="emoji">📲</div>
+            <h3>iOS</h3>
+          </div>
+
+          <div class="platform">
+            <div class="emoji">🌐</div>
+            <h3>Web</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="download-section" id="download">
+      <div class="container">
+        <div class="download-panel">
+          <h2>Ready to Get Started?</h2>
+          <p>
+            Explore the latest releases of V-Converter
+            and start creating today.
+          </p>
+
+          <a
+            class="btn btn-primary"
+            href="https://github.com/VConverterCrew/V-Converter/releases"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download from GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <p>
+        © <span id="year"></span> VConverterCrew.
+        Open-source project.
+      </p>
+
+      <div class="footer-links">
+        <a
+          href="https://github.com/VConverterCrew"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Organization</a>
+
+        <a
+          href="https://github.com/VConverterCrew/V-Converter/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Report an Issue</a>
+
+        <a
+          href="https://github.com/VConverterCrew/V-Converter-Website"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Website Source</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById("menuToggle");
+    const navigation = document.getElementById("navigation");
+
+    toggle.addEventListener("click", () => {
+      const open = navigation.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.textContent = open ? "✕" : "☰";
+    });
+
+    navigation.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navigation.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.textContent = "☰";
+      });
+    });
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>
